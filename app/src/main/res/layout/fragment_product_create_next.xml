@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".ui.addproduct.ProductCreateFragment">
+
+    <Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:navigationIcon="@drawable/ic_back_button"
+        android:title=" ">
+
+        <TextView
+            style="@style/ToolbarTitleTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/product_create_title" />
+
+        <ImageView
+            android:id="@+id/closeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="24dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_close_button" />
+    </Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/TextInputStyle.16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="@string/main_characteristics" />
+
+            <TextView
+                style="@style/TextInputStyle.16.Bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/country_of_production" />
+
+            <TextView
+                android:id="@+id/chooseCountryTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/shape_r12"
+                android:gravity="center_vertical"
+                android:padding="16dp"
+                android:text="@string/country"
+                app:drawableEndCompat="@drawable/ic_choose_arrow_down" />
+
+            <TextView
+                style="@style/TextInputStyle.16.Bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/expiration_date" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/productExpirationDateEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/shape_r12"
+                android:gravity="center_vertical"
+                android:hint="12 мес."
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:maxLines="1"
+                android:padding="16dp" />
+
+            <TextView
+                style="@style/TextInputStyle.16.Bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/type_of_package" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/productPackageTypeEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/shape_r12"
+                android:gravity="center_vertical"
+                android:hint="картонная"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:maxLines="1"
+                android:padding="16dp" />
+
+            <TextView
+                style="@style/TextInputStyle.16.Bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/type_of_cookie" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/productTypeEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/shape_r12"
+                android:gravity="center_vertical"
+                android:hint="бисквитная"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:maxLines="1"
+                android:padding="16dp" />
+
+            <TextView
+                style="@style/TextInputStyle.16.Bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/ingredients" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/productIngredientsEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/shape_r12"
+                android:gravity="center_vertical"
+                android:hint="овсянка"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:maxLines="1"
+                android:padding="16dp" />
+
+            <TextView
+                style="@style/TextInputStyle.16.Bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/characteristics" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/productCharacteristicsEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/shape_r12"
+                android:gravity="center_vertical"
+                android:imeOptions="actionNext"
+                android:inputType="textCapSentences"
+                android:maxLines="1"
+                android:padding="16dp" />
+
+            <Button
+                android:id="@+id/continueButton"
+                style="@style/Button.Green"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:layout_marginBottom="24dp"
+                android:text="@string/continue_button" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.example.qmart.ui.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_products"
+            app:destination="@id/navigation_products"
+            app:popUpTo="@id/navigation_home" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_orders"
+        android:name="com.example.qmart.ui.order.OrderFragment"
+        android:label="fragment_order"
+        tools:layout="@layout/fragment_order" />
+
+    <navigation
+        android:id="@+id/navigation_more"
+        app:startDestination="@id/settingFragment">
+        <fragment
+            android:id="@+id/settingFragment"
+            android:name="com.example.qmart.ui.setting.SettingFragment"
+            android:label="fragment_setting"
+            tools:layout="@layout/fragment_setting">
+            <action
+                android:id="@+id/action_settingFragment_to_settingDeliveryFragment"
+                app:destination="@id/settingDeliveryFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/settingDeliveryFragment"
+            android:name="com.example.qmart.ui.setting.SettingDeliveryFragment"
+            android:label="SettingDeliveryFragment"
+            tools:layout="@layout/fragment_setting_delivery" />
+    </navigation>
+    <navigation
+        android:id="@+id/navigation_plus"
+        app:startDestination="@id/fragmentProductCreate">
+        <fragment
+            android:id="@+id/fragmentProductCreate"
+            android:name="com.example.qmart.ui.addproduct.ProductCreateFragment"
+            android:label="fragment_create"
+            tools:layout="@layout/fragment_product_create">
+            <action
+                android:id="@+id/action_fragmentProductCreate_to_productCreateNextFragment"
+                app:destination="@id/productCreateNextFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/productCreateNextFragment"
+            android:name="com.example.qmart.ui.addproduct.ProductCreateNextFragment"
+            android:label="ProductCreateNextFragment"
+            tools:layout="@layout/fragment_product_create_next">
+            <action
+                android:id="@+id/action_productCreateNextFragment_to_salePointFragment"
+                app:destination="@id/salePointFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/salePointFragment"
+            android:name="com.example.qmart.ui.salepoint.SalePointFragment"
+            android:label="SalePointFragment"
+            tools:layout="@layout/fragment_sale_point" />
+    </navigation>
+    <navigation
+        android:id="@+id/navigation_products"
+        app:startDestination="@id/productMainFragment">
+        <fragment
+            android:id="@+id/productMainFragment"
+            android:name="com.example.qmart.ui.product.ProductMainFragment"
+            android:label="ProductFragment"
+            tools:layout="@layout/fragment_product_main">
+            <action
+                android:id="@+id/action_productMainFragment_to_productInfoFragment"
+                app:destination="@id/productInfoFragment"/>
+        </fragment>
+        <fragment
+            android:id="@+id/productInfoFragment"
+            android:name="com.example.qmart.ui.product.ProductInfoFragment"
+            android:label="ProductInfoFragment"
+            tools:layout="@layout/fragment_product_info" />
+        <action
+            android:id="@+id/action_global_navigation_plus"
+            app:destination="@id/navigation_plus"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/navigation_products"
+            app:popUpToInclusive="true" />
+    </navigation>
+</navigation>

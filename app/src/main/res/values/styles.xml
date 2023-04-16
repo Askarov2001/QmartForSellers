@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Button.Green" parent="ThemeOverlay.AppCompat">
+        <item name="android:background">@drawable/shape_r12</item>
+        <item name="backgroundTint">@color/green</item>
+        <item name="android:textColor">@color/black_text</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="CustomBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/CustomBottomSheetStyle</item>
+    </style>
+
+    <style name="CustomBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+
+    <style name="TextInputStyle.12" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/text_12</item>
+        <item name="android:textColor">@color/grey_600</item>
+    </style>
+
+    <style name="TextInputStyle.14" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/text_14</item>
+        <item name="android:textColor">@color/orange_500</item>
+    </style>
+
+    <style name="TextInputStyle.15" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/text_15</item>
+        <item name="android:textColor">#0D0D0D</item>
+    </style>
+
+    <style name="TextInputStyle.16" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/text_16</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextInputStyle.16.Bold" parent="TextInputStyle.16">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextInputStyle.18" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/text_18</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextInputStyle.18.Bold" parent="TextInputStyle.18">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextInputStyle.20" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/text_20</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextInputStyle.20.Bold" parent="TextInputStyle.20">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextInputStyle.24" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/text_24</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="ToolbarTitleTextStyle" parent="Widget.AppCompat.Toolbar">
+        <item name="android:textSize">@dimen/text_24</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="OutlinedBoxStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusTopStart">12dp</item>
+        <item name="boxCornerRadiusTopEnd">12dp</item>
+        <item name="boxCornerRadiusBottomStart">12dp</item>
+        <item name="boxCornerRadiusBottomEnd">12dp</item>
+        <item name="boxStrokeColor">@color/grey</item>
+        <item name="boxStrokeWidth">1dp</item>
+    </style>
+
+    <style name="MyRadioButton" parent="Widget.Material3.CompoundButton.RadioButton">
+        <item name="background"></item>
+    </style>
+
+</resources>

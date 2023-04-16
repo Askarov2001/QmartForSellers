@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.product.ProductInfoDetailFragment">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/productImageView"
+            android:layout_width="match_parent"
+            android:layout_height="190dp"
+            android:layout_marginHorizontal="44dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="fitXY"
+            app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.ExtraSmall"
+            tools:src="@tools:sample/backgrounds/scenic" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/grey_200" />
+
+        <TextView
+            android:id="@+id/productCategoryTextView"
+            style="@style/TextInputStyle.12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="16dp"
+            tools:text="Молочные продукты" />
+
+        <TextView
+            android:id="@+id/productNameTextView"
+            style="@style/TextInputStyle.16"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="8dp"
+            tools:text="Домашние печеньки овсяное 1кг " />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="16dp"
+            android:hint="@string/product_cost_edit_hint"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/productCostEditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:imeOptions="actionDone"
+                android:inputType="number" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/lowCostTextView"
+            style="@style/TextInputStyle.12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="8dp"
+            tools:text="Самая низкая цена 776тг" />
+
+        <TextView
+            style="@style/TextInputStyle.18"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/information" />
+
+
+        <TextView
+            android:id="@+id/productDescriptionTextView"
+            style="@style/TextInputStyle.15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="16dp"
+            tools:text="Очень вкусные пончики к чаю с шоколадной начинкой. Очень вкусные пончики к чаю с шоколадной начинкой. Очень вкусные пончики к чаю с шоколадной начинкой. Очень вкусные пончики к чаю с шоколадной начинкой." />
+
+
+        <Button
+            android:id="@+id/saveChangesButton"
+            style="@style/Button.Green"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="44dp"
+            android:layout_marginBottom="24dp"
+            android:text="@string/save_changes" />
+
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>
