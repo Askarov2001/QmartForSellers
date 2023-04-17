@@ -2,6 +2,7 @@ package com.example.qmart.ui.addproduct
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel
+import com.example.qmart.data.Categories
 import com.example.qmart.data.Product
 
 class ProductCreateViewModel : ViewModel() {
@@ -26,48 +27,15 @@ class ProductCreateViewModel : ViewModel() {
         product.name = it
     }
 
-    fun setProductCategory(it: String) {
+    fun setProductCategory(it: Categories) {
         product.category = it
     }
 
     fun setProductDescription(it: String) {
         product.description = it
     }
-
-    fun setProductCountry(it: String) {
-        product.country = it
-    }
-
-    fun setProductExpirationDate(it: String) {
-        product.expirationDate = it
-    }
-
-    fun setProductPackageType(it: String) {
-        product.packageType = it
-    }
-
-    fun setProductType(it: String) {
-        product.type = it
-    }
-
-    fun setProductIngredients(it: String) {
-        product.ingredients = it
-    }
-
-    fun setProductCharacteristics(it: String) {
-        product.characteristics = it
-    }
-
-    fun setProductImage1(it: Uri) {
-        product.productImage1 = it
-    }
-
-    fun setProductImage2(it: Uri) {
-        product.productImage2 = it
-    }
-
-    fun setProductImage3(it: Uri) {
-        product.productImage3 = it
+    fun setProductCost(it: Int) {
+        product.cost = it
     }
 
     /*

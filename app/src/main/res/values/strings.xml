@@ -51,4 +51,14 @@
     <string name="settings_title">Настройки</string>
     <string name="information">Информация</string>
     <string name="save_changes">Сохранить изменения</string>
+    <string name="create">Создать</string>
+    <string name="products">Продукты</string>
+    <string name="appliances">Бытовая техника</string>
+    <string name="all_for_home">Все для дома</string>
+    <string name="furniture">Мебель</string>
+    <string name="electronic">Электроника</string>
+    <string name="accessories">Аксессуары</string>
+    <string name="sport">Спорт</string>
+    <string name="make_up">Красота</string>
+    <string name="zoo_products">Зоо товары</string>
 </resources>

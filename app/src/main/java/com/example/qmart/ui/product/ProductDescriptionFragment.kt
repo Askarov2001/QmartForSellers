@@ -39,12 +39,6 @@ class ProductDescriptionFragment : Fragment() {
             product = getParcelable<Product>(PRODUCTARG) as Product
         }
         val characteristics = listOf(
-            Pair(resources.getString(R.string.country_of_production), product.country),
-            Pair(resources.getString(R.string.expiration_date), product.expirationDate),
-            Pair(resources.getString(R.string.type_of_package), product.packageType),
-            Pair(resources.getString(R.string.type_of_cookie), product.type),
-            Pair(resources.getString(R.string.ingredients), product.ingredients),
-            Pair(resources.getString(R.string.type_of_cookie), product.type),
             Pair(resources.getString(R.string.characteristics), product.characteristics)
         )
 

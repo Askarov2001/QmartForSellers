@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.qmart.R
+import com.example.qmart.data.Categories
 import com.example.qmart.data.Repository.categories
 import com.example.qmart.databinding.FragmentCategoryBinding
 import com.example.qmart.openFragment
@@ -48,27 +49,32 @@ class CategoryFragment : Fragment() {
             val fragment = CategoryBottomSheetFragment().apply {
                 setCategorySelectedListener {
                     selectedIndex = it.first
-                    selectedCategory = it.second
+                    selectedCategory = getString(it.second.nameRes)
                     updateCategoryView()
                 }
                 setCategories(
                     selectedIndex,
-                    categories
+                    Categories.values().toList()
                 )
             }
             fragment.show(parentFragmentManager, "Dialog")
         }
 
         continueButton.setOnClickListener {
-            val result = !binding.chooseCategoryTextView.text.equals(resources.getString(R.string.category))
-            openFragment(parentFragmentManager, ResultFragment.newInstance(result), "CategoryFragment")
+            val result =
+                !binding.chooseCategoryTextView.text.equals(resources.getString(R.string.category))
+            openFragment(
+                parentFragmentManager,
+                ResultFragment.newInstance(result),
+                "CategoryFragment"
+            )
         }
     }
 
     private fun updateCategoryView() {
-        binding.chooseCategoryTextView.text = if (selectedCategory != EMPTY) selectedCategory else resources.getString(R.string.category)
+        binding.chooseCategoryTextView.text =
+            if (selectedCategory != EMPTY) selectedCategory else resources.getString(R.string.category)
     }
-
 
 
 }

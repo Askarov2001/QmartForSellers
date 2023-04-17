@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import com.example.qmart.R
+import com.example.qmart.data.Categories
 import com.example.qmart.data.CategoryArgument
 import com.example.qmart.databinding.FragmentCategoryBottomSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -15,8 +16,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 class CategoryBottomSheetFragment : BottomSheetDialogFragment() {
 
     private var selectedIndex = -1
-    private var onCategorySelectedListener: (Pair<Int, String>) -> Unit = {}
-    private var categories: List<String> = emptyList()
+    private var onCategorySelectedListener: (Pair<Int, Categories>) -> Unit = {}
+    private var categories: List<Categories> = emptyList()
 
     lateinit var binding: FragmentCategoryBottomSheetBinding
 
@@ -65,7 +66,7 @@ class CategoryBottomSheetFragment : BottomSheetDialogFragment() {
             onCategorySelectedListener.invoke(
                 Pair(
                     categoriesAdapter.getSelectedIndex(),
-                    categoriesAdapter.getSelectedName()
+                    categoriesAdapter.getSelected()
                 )
             )
 
@@ -78,12 +79,12 @@ class CategoryBottomSheetFragment : BottomSheetDialogFragment() {
         }
     }
 
-    fun setCategories(index: Int, list: List<String>) {
+    fun setCategories(index: Int, list: List<Categories>) {
         selectedIndex = index
         categories = list
     }
 
-    fun setCategorySelectedListener(onCategorySelectedListener: (Pair<Int, String>) -> Unit) {
+    fun setCategorySelectedListener(onCategorySelectedListener: (Pair<Int, Categories>) -> Unit) {
         this.onCategorySelectedListener = onCategorySelectedListener
     }
 

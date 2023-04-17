@@ -4,21 +4,17 @@ import android.net.Uri
 import android.os.Parcelable
 import com.example.qmart.R
 import kotlinx.parcelize.Parcelize
+import java.io.Serializable
+import java.util.UUID
 
 @Parcelize
 data class Product(
+    var id: String = UUID.randomUUID().toString(),
     var name: String = "",
-    var category: String = "",
+    var category: Categories = Categories.PRODUCTS,
     var description: String = "",
-    var country: String = "",
-    var expirationDate: String = "",
-    var packageType: String = "",
-    var type: String = "",
-    var ingredients: String = "",
     var characteristics: String = "",
-    var productImage1: Uri = Uri.parse(""),
-    var productImage2: Uri = Uri.parse(""),
-    var productImage3: Uri = Uri.parse(""),
+    var images: ArrayList<String> = ArrayList(),
     var cost: Int = 0,
     var status: String = ""
-): Parcelable
+) : Parcelable,Serializable
