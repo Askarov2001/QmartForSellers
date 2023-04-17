@@ -53,64 +53,65 @@ class ProductCreateNextFragment : Fragment() {
     }
 
     private fun setUI() = with(binding) {
-        viewModel.getProduct().apply {
-            selectedCountry = this.country
-            chooseCountryTextView.text = if (this.country != EMPTY && this.country != "") selectedCountry else resources.getString(R.string.country)
-            productExpirationDateEditText.setText(this.expirationDate)
-            productPackageTypeEditText.setText(this.packageType)
-            productTypeEditText.setText(this.type)
-            productIngredientsEditText.setText(this.ingredients)
-            productCharacteristicsEditText.setText(this.characteristics)
-        }
+//        viewModel.getProduct().apply {
+//            selectedCountry = this.country
+//            chooseCountryTextView.text = if (this.country != EMPTY && this.country != "") selectedCountry else resources.getString(R.string.country)
+//            productExpirationDateEditText.setText(this.expirationDate)
+//            productPackageTypeEditText.setText(this.packageType)
+//            productTypeEditText.setText(this.type)
+//            productIngredientsEditText.setText(this.ingredients)
+//            productCharacteristicsEditText.setText(this.characteristics)
+//        }
+//
+//        chooseCountryTextView.setOnClickListener {
+//            val fragment = CountryBottomSheetFragment().apply {
+//                setCategorySelectedListener {
+//                    selectedIndex = it.first
+//                    selectedCountry = it.second
+//                    viewModel.setProductCountry(selectedCountry)
+//                    updateCountryView()
+//                }
+//                setCountries(
+//                    selectedIndex,
+//                    Repository.countries,
+//                    Location.COUNTRY
+//                )
+//            }
+//            fragment.show(parentFragmentManager, "Dialog")
+//        }
+//
+//        productExpirationDateEditText.addTextListener {
+//            viewModel.setProductExpirationDate(it)
+//        }
+//
+//        productPackageTypeEditText.addTextListener {
+//            viewModel.setProductPackageType(it)
+//        }
+//
+//        productTypeEditText.addTextListener {
+//            viewModel.setProductType(it)
+//        }
+//
+//        productIngredientsEditText.addTextListener {
+//            viewModel.setProductIngredients(it)
+//        }
+//
+//        productCharacteristicsEditText.addTextListener {
+//            viewModel.setProductCharacteristics(it)
+//        }
+//
+//        closeButton.setOnClickListener {
+//            requireActivity().onBackPressedDispatcher.onBackPressed()
+//        }
+//
+//        continueButton.setOnClickListener {
+//            //openFragment(parentFragmentManager, newInstance(), "ProductCreateNextFragment")
+//        }
+//    }
+//
+//    private fun updateCountryView() {
+//        binding.chooseCountryTextView.text = if (selectedCountry != EMPTY) selectedCountry else resources.getString(R.string.country)
+//    }
 
-        chooseCountryTextView.setOnClickListener {
-            val fragment = CountryBottomSheetFragment().apply {
-                setCategorySelectedListener {
-                    selectedIndex = it.first
-                    selectedCountry = it.second
-                    viewModel.setProductCountry(selectedCountry)
-                    updateCountryView()
-                }
-                setCountries(
-                    selectedIndex,
-                    Repository.countries,
-                    Location.COUNTRY
-                )
-            }
-            fragment.show(parentFragmentManager, "Dialog")
-        }
-
-        productExpirationDateEditText.addTextListener {
-            viewModel.setProductExpirationDate(it)
-        }
-
-        productPackageTypeEditText.addTextListener {
-            viewModel.setProductPackageType(it)
-        }
-
-        productTypeEditText.addTextListener {
-            viewModel.setProductType(it)
-        }
-
-        productIngredientsEditText.addTextListener {
-            viewModel.setProductIngredients(it)
-        }
-
-        productCharacteristicsEditText.addTextListener {
-            viewModel.setProductCharacteristics(it)
-        }
-
-        closeButton.setOnClickListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
-        }
-
-        continueButton.setOnClickListener {
-            //openFragment(parentFragmentManager, newInstance(), "ProductCreateNextFragment")
-        }
     }
-
-    private fun updateCountryView() {
-        binding.chooseCountryTextView.text = if (selectedCountry != EMPTY) selectedCountry else resources.getString(R.string.country)
-    }
-
 }

@@ -66,8 +66,7 @@ class ProductInfoDetailFragment : Fragment() {
     }
 
     fun setUI() = with(binding) {
-        productImageView.setImageURI(product.productImage1)
-        productCategoryTextView.text = product.category
+        productCategoryTextView.text = getString(product.category.nameRes)
         productNameTextView.text = product.name
         productCostEditText.setText(product.cost.toInt().toString())
         productDescriptionTextView.text = product.description

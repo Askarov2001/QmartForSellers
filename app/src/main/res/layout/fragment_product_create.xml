@@ -76,8 +76,8 @@
                         android:id="@+id/imageView2"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
-                        android:scaleType="centerCrop"
                         android:layout_marginRight="16dp"
+                        android:scaleType="centerCrop"
                         android:src="@drawable/procuct_image_2" />
 
                     <ImageView
@@ -112,6 +112,24 @@
                 android:background="@drawable/shape_r12"
                 android:gravity="center_vertical"
                 android:hint="Например, шоколадное печенье"
+                android:inputType="textCapSentences"
+                android:maxLines="1"
+                android:padding="16dp" />
+            <TextView
+                style="@style/TextInputStyle.16.Bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/product_cost_edit_hint" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/productPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/shape_r12"
+                android:gravity="center_vertical"
+                android:hint="5000"
                 android:inputType="textCapSentences"
                 android:maxLines="1"
                 android:padding="16dp" />
@@ -166,7 +184,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="24dp"
-                android:text="@string/continue_button" />
+                android:text="@string/create" />
 
         </LinearLayout>
     </ScrollView>

@@ -8,11 +8,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.qmart.R
+import com.example.qmart.data.Categories
 
 private var checkedPosition = -1
 const val EMPTY = "empty"
 
-class CategoryAdapter() : ListAdapter<String, CategoryViewHolder>(StringDiffUtil()) {
+class CategoryAdapter() : ListAdapter<Categories, CategoryViewHolder>(StringDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         return CategoryViewHolder(
@@ -21,7 +22,7 @@ class CategoryAdapter() : ListAdapter<String, CategoryViewHolder>(StringDiffUtil
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position).nameRes)
         holder.itemView.setOnClickListener {
             checkedPosition = holder.adapterPosition
             notifyDataSetChanged()
@@ -32,9 +33,9 @@ class CategoryAdapter() : ListAdapter<String, CategoryViewHolder>(StringDiffUtil
         return checkedPosition
     }
 
-    fun getSelectedName(): String {
+    fun getSelected(): Categories {
         if (checkedPosition == -1) {
-            return EMPTY
+            return Categories.PRODUCTS
         }
         return getItem(checkedPosition)
     }
@@ -55,8 +56,8 @@ class CategoryAdapter() : ListAdapter<String, CategoryViewHolder>(StringDiffUtil
 class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val categoryTextView = itemView.findViewById<TextView>(R.id.categoryTextView)
 
-    fun bind(category: String) {
-        categoryTextView.text = category
+    fun bind(category: Int) {
+        categoryTextView.text = itemView.context.getString(category)
         if (checkedPosition == -1) {
             categoryTextView.isSelected = false
         } else {
@@ -65,13 +66,14 @@ class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     }
 }
 
-class StringDiffUtil : DiffUtil.ItemCallback<String>() {
-    override fun areItemsTheSame(oldItem: String, newItem: String): Boolean =
-        oldItem == newItem
+class StringDiffUtil : DiffUtil.ItemCallback<Categories>() {
+    override fun areItemsTheSame(oldItem: Categories, newItem: Categories): Boolean {
+        return oldItem.nameRes == newItem.nameRes
+    }
 
-
-    override fun areContentsTheSame(oldItem: String, newItem: String): Boolean =
-        oldItem == newItem
+    override fun areContentsTheSame(oldItem: Categories, newItem: Categories): Boolean {
+        return oldItem.nameRes == newItem.nameRes
+    }
 
 }
 

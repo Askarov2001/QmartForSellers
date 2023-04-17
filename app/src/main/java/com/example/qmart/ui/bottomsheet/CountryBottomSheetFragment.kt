@@ -48,22 +48,24 @@ class CountryBottomSheetFragment : BottomSheetDialogFragment() {
         val tv = TypedValue()
         var actionBarHeight = 0
         if (requireActivity().theme.resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
-            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, resources.displayMetrics)
+            actionBarHeight =
+                TypedValue.complexToDimensionPixelSize(tv.data, resources.displayMetrics)
         }
         var statusBarHeight: Int = 0
         val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
         if (resourceId > 0) {
             statusBarHeight = resources.getDimensionPixelSize(resourceId)
         }
-        params.height = Resources.getSystem().displayMetrics.heightPixels - actionBarHeight - statusBarHeight
+        params.height =
+            Resources.getSystem().displayMetrics.heightPixels - actionBarHeight - statusBarHeight
         view.layoutParams = params
     }
 
     private fun setUI() = with(binding) {
-        val countriesAdapter = CategoryAdapter()
+        val countriesAdapter = CountriesAdapter()
 
         titleTextView.setText(
-            when(type){
+            when (type) {
                 Location.COUNTRY -> R.string.choose_country_title
                 Location.CITY -> R.string.choose_city_title
             }

@@ -29,7 +29,6 @@ class ProductAdapter(private val listener: ProductClickListener) : ListAdapter<P
         with(holder.binding) {
             productTitleTextView.text = product.name
             productCostTextView.text = String.format("%d kzt", product.cost)
-            productImageView.setImageURI(product.productImage1)
         }
     }
 }
