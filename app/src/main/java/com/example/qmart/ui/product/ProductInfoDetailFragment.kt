@@ -11,6 +11,10 @@ import androidx.core.text.HtmlCompat
 import com.example.qmart.R
 import com.example.qmart.data.Product
 import com.example.qmart.databinding.FragmentProductInfoDetailBinding
+import com.google.android.material.tabs.TabLayout
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 class ProductInfoDetailFragment : Fragment() {
 
@@ -21,6 +25,9 @@ class ProductInfoDetailFragment : Fragment() {
     private lateinit var viewModel: ProductViewModel
     private lateinit var binding: FragmentProductInfoDetailBinding
     private lateinit var product: Product
+    private val database: DatabaseReference by lazy {
+        Firebase.database.reference
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,7 +63,7 @@ class ProductInfoDetailFragment : Fragment() {
                 requireContext(),
                 R.color.orange_700
             )
-        }>"+product.cost+"</font>"
+        }>" + product.cost + "</font>"
 
 
         binding.lowCostTextView.text = HtmlCompat.fromHtml(
@@ -66,6 +73,9 @@ class ProductInfoDetailFragment : Fragment() {
     }
 
     fun setUI() = with(binding) {
+        setToolbar()
+        title.text = product.name
+        productTabLayout.addTab(productTabLayout.newTab().setText(R.string.info), true)
         productCategoryTextView.text = getString(product.category.nameRes)
         productNameTextView.text = product.name
         productCostEditText.setText(product.cost.toInt().toString())
@@ -74,6 +84,23 @@ class ProductInfoDetailFragment : Fragment() {
             product.cost = productCostEditText.text.toString().toInt()
             viewModel.updateProductCost(product)
             setLowCostView()
+            val map = HashMap<String, Any>()
+            map["cost"] = productCostEditText.text.toString().toInt()
+            database.child(product.category.name.uppercase()).child(product.id)
+                .updateChildren(map as Map<String, Any>)
+
+        }
+        closeButton.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+    }
+
+    private fun setToolbar() {
+        requireActivity().apply {
+            setActionBar(binding.toolbar)
+            binding.toolbar.setNavigationOnClickListener {
+                onBackPressedDispatcher.onBackPressed()
+            }
         }
     }
 

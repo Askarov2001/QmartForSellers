@@ -81,7 +81,7 @@
         </fragment>
         <fragment
             android:id="@+id/productInfoFragment"
-            android:name="com.example.qmart.ui.product.ProductInfoFragment"
+            android:name="com.example.qmart.ui.product.ProductInfoDetailFragment"
             android:label="ProductInfoFragment"
             tools:layout="@layout/fragment_product_info" />
         <action

@@ -32,22 +32,12 @@
     </Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/typeRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clipToPadding="false"
-        android:orientation="horizontal"
-        android:paddingStart="24dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:ignore="RtlSymmetry"
-        tools:listitem="@layout/item_order_type" />
-
-    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/orderRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        tools:visibility="gone"/>
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:visibility="gone" />
 
     <TextView
         android:id="@+id/emptyTextView"

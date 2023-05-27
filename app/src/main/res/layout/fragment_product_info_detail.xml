@@ -11,6 +11,35 @@
         android:orientation="vertical"
         tools:context=".ui.product.ProductInfoDetailFragment">
 
+        <Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:navigationIcon="@drawable/ic_back_button"
+            android:title=" ">
+
+            <TextView
+                android:id="@+id/title"
+                style="@style/ToolbarTitleTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/menu_products" />
+
+            <ImageView
+                android:id="@+id/closeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="24dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_close_button" />
+        </Toolbar>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/productTabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/productImageView"
             android:layout_width="match_parent"
