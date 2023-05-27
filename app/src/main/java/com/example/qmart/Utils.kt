@@ -14,7 +14,7 @@ fun openFragment(fragmentManager: FragmentManager, fragment: Fragment, tag: Stri
         .commit()
 }
 
-fun EditText.addTextListener(func: (s: String)-> Unit){
+fun EditText.addTextListener(func: (s: String) -> Unit) {
     this.addTextChangedListener(object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
         }
@@ -27,4 +27,5 @@ fun EditText.addTextListener(func: (s: String)-> Unit){
         }
 
     })
+
 }

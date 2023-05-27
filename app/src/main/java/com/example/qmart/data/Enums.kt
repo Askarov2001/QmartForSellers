@@ -7,12 +7,8 @@ enum class Location {
 }
 
 enum class OrderType(val title: String) {
-    PICKUP("Самовывоз"),
-    ONDELIVERY("На доставке"),
-    PACKAGING("Упаковка"),
-    TRANSFER("Передача"),
-    WAITDELIVERY("Ожидают доставки"),
-    ARCHIVE("Архив")
+    ACTUAL("Самовывоз"),
+    TAKEN("Принятые"),
 }
 
 enum class ProductType(val title: String) {
@@ -30,5 +26,32 @@ enum class Categories(val nameRes: Int) {
     SPORT(R.string.sport),
     MAKE_UP(R.string.make_up),
     ZOO(R.string.zoo_products),
-    EMPTY(R.string.category)
+    EMPTY(R.string.category);
+
+    companion object {
+        fun getByString(value: String): Categories {
+            values().forEach {
+                if (it.name == value) {
+                    return it
+                }
+            }
+            return EMPTY
+        }
+    }
+}
+
+enum class STATUS(val status: String) {
+    ACTIVE("ACTIVE"),
+    INACTIVE("INACTIVE");
+
+    companion object {
+        fun getByString(value: String): STATUS {
+            values().forEach {
+                if (it.name == value) {
+                    return it
+                }
+            }
+            return INACTIVE
+        }
+    }
 }
