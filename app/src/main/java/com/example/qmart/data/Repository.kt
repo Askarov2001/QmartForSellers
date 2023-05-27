@@ -33,12 +33,8 @@ object Repository {
     )
 
     val orderTypes = listOf<Pair<OrderType, Int>>(
-        Pair(OrderType.PICKUP, 0),
-        Pair(OrderType.ONDELIVERY, 0),
-        Pair(OrderType.PACKAGING, 0),
-        Pair(OrderType.TRANSFER, 0),
-        Pair(OrderType.WAITDELIVERY, 0),
-        Pair(OrderType.ARCHIVE, 0),
+        Pair(OrderType.ACTUAL, 0),
+        Pair(OrderType.TAKEN, 0)
     )
 
     val products = ArrayList<Product>()

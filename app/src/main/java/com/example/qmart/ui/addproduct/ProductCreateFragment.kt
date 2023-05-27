@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,19 +17,18 @@ import androidx.core.content.PermissionChecker
 import androidx.core.content.PermissionChecker.checkSelfPermission
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
-import com.example.qmart.R
 import com.example.qmart.addTextListener
 import com.example.qmart.data.Categories
 import com.example.qmart.data.Product
-import com.example.qmart.data.Repository
 import com.example.qmart.databinding.FragmentProductCreateBinding
 import com.example.qmart.ui.bottomsheet.CategoryBottomSheetFragment
-import com.example.qmart.ui.bottomsheet.EMPTY
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.ktx.storage
+import java.io.File
 
 
 class ProductCreateFragment : Fragment() {
@@ -49,6 +49,14 @@ class ProductCreateFragment : Fragment() {
     private lateinit var viewModel: ProductCreateViewModel
     private val database: DatabaseReference by lazy {
         Firebase.database.reference
+    }
+
+    private val storage: FirebaseStorage by lazy {
+        Firebase.storage
+    }
+
+    private val storageRef: StorageReference by lazy {
+        storage.reference
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -199,23 +207,37 @@ class ProductCreateFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
-            ++counter
-            when (counter) {
-                1 -> {
-                    binding.imageView1.setImageURI(data?.data)
-                }
+            // File or Blob
+            data?.data?.let {
+                val file = Uri.fromFile(File(it.path.toString()))
+                val uploadTask = storageRef.putFile(file)
+                uploadTask.addOnSuccessListener {
+                    Log.d("WWWWWW", it.task.result.storage.downloadUrl.toString())
+                }.addOnCompleteListener {
+                    Log.d("WWWWWW", "COMPLETE")
 
-                2 -> {
-                    binding.imageView2.setImageURI(data?.data)
-                }
+                }.addOnFailureListener {
+                    Log.d("WWWWWW", it.message.toString())
 
-                3 -> {
-                    binding.imageView3.setImageURI(data?.data)
                 }
-            }
-
-            if (counter == 3) {
-                counter = 0
+                val urlTask = uploadTask.continueWithTask { task ->
+                    if (!task.isSuccessful) {
+                        task.exception?.let {
+                            throw it
+                        }
+                    }
+                    Log.d("DOWNLOAD", storageRef.downloadUrl.toString())
+                    storageRef.downloadUrl
+                }.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val downloadUri = task.result
+                        Log.d("DOWNLOAD", downloadUri.toString())
+                    } else {
+                        Log.d("WWWWWW", "FAIL")
+                        // Handle failures
+                        // ...
+                    }
+                }
             }
         }
     }
@@ -225,6 +247,16 @@ class ProductCreateFragment : Fragment() {
     }
 
     private fun writeNewProductToDb(product: Product) {
+        val addedCategories = ArrayList<String>()
+        database.child("CATEGORIES").get().addOnSuccessListener {
+            it.children.forEach {
+                addedCategories.add(it.key.toString())
+            }
+        }
+        if (!addedCategories.contains(product.category.toString().uppercase())) {
+            database.child("CATEGORIES").child(product.category.toString().uppercase())
+                .setValue(product.category.toString().uppercase())
+        }
         database.child(product.category.toString().uppercase()).child(product.id).setValue(product)
     }
 }

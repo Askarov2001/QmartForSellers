@@ -16,5 +16,10 @@ data class Product(
     var characteristics: String = "",
     var images: ArrayList<String> = ArrayList(),
     var cost: Int = 0,
-    var status: String = ""
-) : Parcelable,Serializable
+    var status: String = ACTIVE
+) : Parcelable,Serializable{
+    companion object{
+        const val INACTIVE = "INACTIVE"
+        const val ACTIVE = "ACTIVE"
+    }
+}
