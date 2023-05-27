@@ -13,10 +13,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
 import androidx.core.content.PermissionChecker.checkSelfPermission
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.loader.app.LoaderManager
+import androidx.loader.content.Loader
+import by.kirich1409.viewbindingdelegate.viewBinding
+import com.bumptech.glide.Glide
+import com.example.qmart.BuildConfig
 import com.example.qmart.addTextListener
 import com.example.qmart.data.Categories
 import com.example.qmart.data.Product
@@ -34,14 +44,8 @@ import java.io.File
 class ProductCreateFragment : Fragment() {
     private var selectedIndex = -1
     private var selectedCategory: Categories = Categories.PRODUCTS
-    private var counter = 0
 
     companion object {
-        //image pick code
-        private val IMAGE_PICK_CODE = 1000
-
-        //Permission code
-        private val PERMISSION_CODE = 1001
         fun newInstance() = ProductCreateFragment()
     }
 
@@ -50,18 +54,50 @@ class ProductCreateFragment : Fragment() {
     private val database: DatabaseReference by lazy {
         Firebase.database.reference
     }
+    private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
+
+    private lateinit var pickMedia: ActivityResultLauncher<PickVisualMediaRequest>
 
     private val storage: FirebaseStorage by lazy {
         Firebase.storage
     }
 
     private val storageRef: StorageReference by lazy {
-        storage.reference
+        storage.reference.child("product/${viewModel.getProduct().id}")
     }
+
+    private val permission: String by lazy {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            Manifest.permission.READ_MEDIA_IMAGES
+        } else {
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        }
+    }
+
+    private var uri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requireActivity().viewModelStore.clear()
+        requestPermissionLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            if (isGranted) {
+                pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            } else {
+            }
+        }
+        pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            if (uri != null) {
+                this.uri = uri
+                Glide.with(requireContext())
+                    .load(uri)
+                    .into(binding.imageView1)
+
+            } else {
+                Log.d("PhotoPicker", "No media selected")
+            }
+        }
     }
 
     override fun onCreateView(
@@ -96,10 +132,7 @@ class ProductCreateFragment : Fragment() {
             productNameEditText.setText(this.name)
             chooseCategoryTextView.text = getString(selectedCategory.nameRes)
             productDescriptionEditText.setText(this.description)
-//
-//            if (productImage1 != Uri.parse("")) imageView1.setImageURI(this.productImage1)
-//            if (productImage2 != Uri.parse("")) imageView2.setImageURI(this.productImage2)
-//            if (productImage3 != Uri.parse("")) imageView3.setImageURI(this.productImage3)
+
         }
 
         chooseCategoryTextView.setOnClickListener {
@@ -130,24 +163,26 @@ class ProductCreateFragment : Fragment() {
         }
 
         addPhotoButton.setOnClickListener {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (checkSelfPermission(
-                        requireContext(),
-                        Manifest.permission.READ_EXTERNAL_STORAGE
-                    ) ==
-                    PermissionChecker.PERMISSION_DENIED
-                ) {
-                    //permission denied
-                    val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
-                    //show popup to request runtime permission
-                    requestPermissions(permissions, PERMISSION_CODE);
-                } else {
-                    //permission already granted
-                    pickImageFromGallery()
+            when {
+                ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    permission
+                ) == PackageManager.PERMISSION_GRANTED -> {
+                    pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
                 }
-            } else {
-                //system OS is < Marshmallow
-                pickImageFromGallery()
+
+                shouldShowRequestPermissionRationale(
+                    permission
+                ) -> {
+                }
+
+                else -> {
+                    // You can directly ask for the permission.
+                    // The registered ActivityResultCallback gets the result of this request.
+                    requestPermissionLauncher.launch(
+                        permission
+                    )
+                }
             }
 
         }
@@ -162,82 +197,10 @@ class ProductCreateFragment : Fragment() {
                     .isNotEmpty() && productDescriptionEditText.text.toString().isNotEmpty()
                 && selectedCategory != Categories.EMPTY
             ) {
-                writeNewProductToDb(viewModel.getProduct())
-                requireActivity().onBackPressedDispatcher.onBackPressed()
+                uploadImage()
             } else {
                 Toast.makeText(requireContext(), "ЗАПОЛНИТЕ ВСЕ ПОЛЯ ПЛИЗ!", Toast.LENGTH_SHORT)
                     .show()
-            }
-            //viewModel.setProductFirstPage(Product(name = productNameEditText.text.toString(), category = selectedCategory, description = productDescriptionEditText.text.toString()))
-            //openFragment(parentFragmentManager, ProductCreateNextFragment.newInstance(), "ProductCreateFragment")
-        }
-    }
-
-
-    private fun pickImageFromGallery() {
-        //Intent to pick image
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        startActivityForResult(intent, IMAGE_PICK_CODE)
-    }
-
-    //handle requested permission result
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
-            PERMISSION_CODE -> {
-                if (grantResults.size > 0 && grantResults[0] ==
-                    PackageManager.PERMISSION_GRANTED
-                ) {
-                    //permission from popup granted
-                    pickImageFromGallery()
-                } else {
-                    //permission from popup denied
-                    Toast.makeText(requireContext(), "Permission denied", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-    }
-
-    //handle result of picked image
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
-            // File or Blob
-            data?.data?.let {
-                val file = Uri.fromFile(File(it.path.toString()))
-                val uploadTask = storageRef.putFile(file)
-                uploadTask.addOnSuccessListener {
-                    Log.d("WWWWWW", it.task.result.storage.downloadUrl.toString())
-                }.addOnCompleteListener {
-                    Log.d("WWWWWW", "COMPLETE")
-
-                }.addOnFailureListener {
-                    Log.d("WWWWWW", it.message.toString())
-
-                }
-                val urlTask = uploadTask.continueWithTask { task ->
-                    if (!task.isSuccessful) {
-                        task.exception?.let {
-                            throw it
-                        }
-                    }
-                    Log.d("DOWNLOAD", storageRef.downloadUrl.toString())
-                    storageRef.downloadUrl
-                }.addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        val downloadUri = task.result
-                        Log.d("DOWNLOAD", downloadUri.toString())
-                    } else {
-                        Log.d("WWWWWW", "FAIL")
-                        // Handle failures
-                        // ...
-                    }
-                }
             }
         }
     }
@@ -258,5 +221,18 @@ class ProductCreateFragment : Fragment() {
                 .setValue(product.category.toString().uppercase())
         }
         database.child(product.category.toString().uppercase()).child(product.id).setValue(product)
+        requireActivity().onBackPressedDispatcher.onBackPressed()
+    }
+
+    private fun uploadImage() {
+        this.uri?.let {
+            binding.loader.visibility = View.VISIBLE
+            storageRef.putFile(it).addOnCompleteListener {
+                binding.loader.visibility = View.GONE
+                writeNewProductToDb(viewModel.getProduct())
+            }
+        } ?: run {
+            writeNewProductToDb(viewModel.getProduct())
+        }
     }
 }
