@@ -14,4 +14,5 @@
     <color name="orange_700">#FF8126</color>
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">@color/grey</color>
     <color name="emerald">#0A9E66</color>
+    <color name="orange">#FF81268F</color>
 </resources>
