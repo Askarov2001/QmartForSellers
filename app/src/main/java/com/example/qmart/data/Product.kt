@@ -14,11 +14,11 @@ data class Product(
     var category: Categories = Categories.PRODUCTS,
     var description: String = "",
     var characteristics: String = "",
-    var images: ArrayList<String> = ArrayList(),
+    var images: String = "",
     var cost: Int = 0,
     var status: String = ACTIVE
-) : Parcelable,Serializable{
-    companion object{
+) : Parcelable, Serializable {
+    companion object {
         const val INACTIVE = "INACTIVE"
         const val ACTIVE = "ACTIVE"
     }

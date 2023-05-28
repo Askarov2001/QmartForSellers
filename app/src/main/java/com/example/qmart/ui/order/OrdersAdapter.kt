@@ -39,12 +39,12 @@ class OrdersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         fun bind(item: Order, position: Int, listener: OrdersAdapterListener?) {
             binding.title.text = "Заказ #${position}"
             binding.root.setOnClickListener {
-                listener?.onClick(item.id)
+                listener?.onClick(item.id, binding.title.text.toString())
             }
         }
     }
 }
 
 interface OrdersAdapterListener {
-    fun onClick(id: String?)
+    fun onClick(id: String?, title:String)
 }
