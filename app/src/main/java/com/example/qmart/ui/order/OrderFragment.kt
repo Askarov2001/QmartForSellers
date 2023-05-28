@@ -1,11 +1,13 @@
 package com.example.qmart.ui.order
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.example.qmart.R
 import com.example.qmart.databinding.FragmentOrderBinding
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
@@ -49,22 +51,22 @@ class OrderFragment : Fragment() {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
         database.child("ORDERS").get().addOnSuccessListener {
-            Log.d("SHAPSHO", it.toString())
             it.children.forEach {
-                Log.d("SHAPSHO", it.toString())
-                val order = (it.getValue(Order::class.java))
-                order?.let { order ->
-                    orders.add(
-                        order
-                    )
-                }
+                orders.add(Order(it.key))
+            }
+            if (orders.size > 0) {
+                binding.orderRecyclerView.visibility = View.VISIBLE
+                binding.emptyTextView.visibility = View.GONE
+            } else {
+                binding.orderRecyclerView.visibility = View.GONE
+                binding.emptyTextView.visibility = View.VISIBLE
             }
             orderAdapter.list = orders
             orderAdapter.listener = object : OrdersAdapterListener {
-                override fun onClick(id: String?) {
-//                    findNavController().navigate()
+                override fun onClick(id: String?, title: String) {
+                    val bundle = bundleOf("orderId" to id, "title" to title)
+                    findNavController().navigate(R.id.orders_to_order_info, bundle)
                 }
-
             }
         }
     }

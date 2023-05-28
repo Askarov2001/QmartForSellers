@@ -34,8 +34,13 @@ class ProductCreateViewModel : ViewModel() {
     fun setProductDescription(it: String) {
         product.description = it
     }
+
     fun setProductCost(it: Int) {
         product.cost = it
+    }
+
+    fun setProductImage(image: String) {
+        product.images = image
     }
 
     /*

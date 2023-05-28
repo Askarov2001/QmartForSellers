@@ -229,7 +229,10 @@ class ProductCreateFragment : Fragment() {
             binding.loader.visibility = View.VISIBLE
             storageRef.putFile(it).addOnCompleteListener {
                 binding.loader.visibility = View.GONE
-                writeNewProductToDb(viewModel.getProduct())
+                storageRef.downloadUrl.addOnSuccessListener {
+                    viewModel.setProductImage(it.toString())
+                    writeNewProductToDb(viewModel.getProduct())
+                }
             }
         } ?: run {
             writeNewProductToDb(viewModel.getProduct())
