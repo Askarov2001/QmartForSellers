@@ -55,7 +55,6 @@ class PhoneVerFragment : Fragment(R.layout.fragment_phone_ver) {
                         .show()
 
                 }
-                startActivity(Intent(requireActivity(),MainActivity::class.java))
             }
         }
     }

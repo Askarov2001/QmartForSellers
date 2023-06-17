@@ -11,7 +11,7 @@ import com.example.qmart.data.Product
 import com.example.qmart.databinding.ItemOrderTypeBinding
 import com.example.qmart.databinding.ItemProductBinding
 
-class ProductAdapter(private val listener: ProductClickListener) :
+class ProductAdapter(private val listener: ProductClickListener,private val isOrder:Boolean = false) :
     ListAdapter<Product, TypeViewHolder>(ProductDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TypeViewHolder {
@@ -30,7 +30,11 @@ class ProductAdapter(private val listener: ProductClickListener) :
 
         with(holder.binding) {
             productTitleTextView.text = product.name
-            productCostTextView.text = String.format("%d kzt", product.cost)
+            if(isOrder){
+                productCostTextView.text = String.format("%d шт", product.cost)
+            }else{
+                productCostTextView.text = String.format("%d kzt", product.cost)
+            }
             Glide.with(root.context)
                 .load(product.images)
                 .into(productImageView)

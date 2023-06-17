@@ -43,54 +43,24 @@
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="8dp"
-        android:text="Способ доставки" />
+        android:text="Мои данные" />
 
     <LinearLayout
         android:id="@+id/cityDelivery"
-        android:background="?attr/selectableItemBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
-        android:paddingVertical="16dp"
+        android:background="?attr/selectableItemBackground"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingVertical="16dp">
 
         <TextView
             style="@style/TextInputStyle.16"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Доставка по городу" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_next_button" />
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginHorizontal="24dp"
-        android:background="@color/grey_200" />
-
-    <LinearLayout
-        android:id="@+id/countryDelivery"
-        android:background="?attr/selectableItemBackground"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:paddingVertical="16dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <TextView
-            style="@style/TextInputStyle.16"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Qmart Доставка по Казахстану" />
+            android:text="Редактировать мои данные" />
 
         <ImageView
             android:layout_width="wrap_content"

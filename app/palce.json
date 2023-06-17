@@ -1,0 +1,15 @@
+{
+  "place":{
+    "name":"asasa",
+    "location":{
+      "city":"Pavlodar",
+      "lang":1234,
+      "loti":1345
+    },
+    "organizer":{
+      "name":"Askhat",
+      "company":"tours.kz",
+      "phone":"39425984954"
+    }
+  }
+}

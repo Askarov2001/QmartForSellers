@@ -18,7 +18,7 @@
 
     <fragment
         android:id="@+id/navigation_orders"
-        android:name="com.example.qmart.ui.order.OrderFragment"
+        android:name="com.example.qmart.ui.order.OrderMainFragment"
         android:label="fragment_order"
         tools:layout="@layout/fragment_order">
         <action
@@ -38,14 +38,12 @@
             android:label="fragment_setting"
             tools:layout="@layout/fragment_setting">
             <action
-                android:id="@+id/action_settingFragment_to_settingDeliveryFragment"
-                app:destination="@id/settingDeliveryFragment" />
+                android:id="@+id/action_settingFragment_to_profileFragment"
+                app:destination="@id/profileFragment" />
         </fragment>
         <fragment
-            android:id="@+id/settingDeliveryFragment"
-            android:name="com.example.qmart.ui.setting.SettingDeliveryFragment"
-            android:label="SettingDeliveryFragment"
-            tools:layout="@layout/fragment_setting_delivery" />
+            android:id="@+id/profileFragment"
+            android:name="com.example.qmart.ui.setting.ProfileFragment" />
     </navigation>
     <navigation
         android:id="@+id/navigation_plus"

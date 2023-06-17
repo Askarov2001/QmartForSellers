@@ -28,7 +28,7 @@ class OrderInfoFragment : Fragment(R.layout.fragment_order_info), ProductClickLi
     }
 
     private val adapter by lazy {
-        ProductAdapter(this)
+        ProductAdapter(this, true)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -63,8 +63,16 @@ class OrderInfoFragment : Fragment(R.layout.fragment_order_info), ProductClickLi
                 }
                 adapter.submitList(products)
             }
-        }
+            back.setOnClickListener {
+                requireActivity().onBackPressedDispatcher.onBackPressed()
+            }
 
+            close.setOnClickListener {
+                requireActivity().onBackPressedDispatcher.onBackPressed()
+
+            }
+
+        }
     }
 
     override fun onClicked(product: Product) {

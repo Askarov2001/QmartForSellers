@@ -13,6 +13,9 @@ import androidx.navigation.fragment.findNavController
 import com.example.qmart.R
 import com.example.qmart.databinding.FragmentHomeBinding
 import com.example.qmart.ui.product.ProductViewModel
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 class HomeFragment : Fragment() {
     companion object {
@@ -21,6 +24,10 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var viewModel: ProductViewModel
+
+    private val database: DatabaseReference by lazy {
+        Firebase.database.reference
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,6 +75,25 @@ class HomeFragment : Fragment() {
         viewModel.productsLiveData.observe(viewLifecycleOwner) {
             inSaleCountTextView.text = it.size.toString()
         }
+        val addedCategories = ArrayList<String>()
+        var count = 0
+        database.child("CATEGORIES").get().addOnSuccessListener {
+            it.children.forEach {
+                addedCategories.add(it.key.toString())
+            }
+
+            addedCategories.forEach {
+                database.child(it.toString().uppercase()).get().addOnSuccessListener {
+                    it.children.forEach {
+                        if (it.child("status").value.toString() == "ACTIVE") {
+                            count++
+                        }
+                    }
+                    binding.inSaleCountTextView.text = count.toString()
+                }
+            }
+        }
+
     }
 
 }

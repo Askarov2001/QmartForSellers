@@ -12,14 +12,42 @@ import com.example.qmart.databinding.ActivityMainBinding
 import com.example.qmart.ui.addproduct.ProductCreateViewModel
 import com.example.qmart.ui.product.ProductViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var productViewModel: ProductViewModel
 
+    private val database: DatabaseReference by lazy {
+        Firebase.database.reference
+    }
+
+    private val auth by lazy {
+        FirebaseAuth.getInstance()
+    }
+
+    private val sp: SharedPref by lazy {
+        SharedPref().apply {
+            init(this@MainActivity)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        auth.addAuthStateListener {
+            val uid = it.currentUser?.uid
+            uid?.let {
+                database.child("sellers").child(uid).child("business").get().addOnSuccessListener {
+                    sp.addProperty(SharedPref.MERCHANT, it.value.toString())
+                }
+                sp.addProperty(SharedPref.UID, uid)
+            }
+        }
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -33,7 +61,11 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_orders, R.id.navigation_plus, R.id.navigation_products, R.id.navigation_more
+                R.id.navigation_home,
+                R.id.navigation_orders,
+                R.id.navigation_plus,
+                R.id.navigation_products,
+                R.id.navigation_more
             )
         )
         //setupActionBarWithNavController(navController, appBarConfiguration)
@@ -44,8 +76,11 @@ class MainActivity : AppCompatActivity() {
                 .replace(R.id.container, MainFragment.newInstance())
                 .commitNow()
         }*/
-
-
-
     }
+
+    fun addProperty(name: String, value: String) {
+        sp.addProperty(name, value)
+    }
+
+    fun getValue(name: String): String? = sp.getProperty(name)
 }

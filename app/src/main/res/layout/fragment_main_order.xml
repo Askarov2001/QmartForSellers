@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
     android:orientation="vertical"
     tools:context=".ui.order.OrderFragment">
 
@@ -32,18 +31,13 @@
             android:src="@drawable/ic_close_button" />
     </Toolbar>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/orderRecyclerView"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/productTabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/productViewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
-    <TextView
-        android:id="@+id/emptyTextView"
-        style="@style/TextInputStyle.24"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="@string/empty_orders_text"
-        tools:visibility="visible" />
-
 </LinearLayout>

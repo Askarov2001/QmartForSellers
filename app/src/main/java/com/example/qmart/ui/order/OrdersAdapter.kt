@@ -23,7 +23,7 @@ class OrdersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         )
     }
 
-    override fun getItemCount(): Int = list.size
+    override fun getItemCount(): Int = 2
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = list[position]
@@ -46,5 +46,5 @@ class OrdersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 }
 
 interface OrdersAdapterListener {
-    fun onClick(id: String?, title:String)
+    fun onClick(id: String?, title: String)
 }

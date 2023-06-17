@@ -25,8 +25,7 @@ enum class Categories(val nameRes: Int) {
     ACCESSORIES(R.string.accessories),
     SPORT(R.string.sport),
     MAKE_UP(R.string.make_up),
-    ZOO(R.string.zoo_products),
-    EMPTY(R.string.category);
+    ZOO(R.string.zoo_products);
 
     companion object {
         fun getByString(value: String): Categories {
@@ -35,7 +34,7 @@ enum class Categories(val nameRes: Int) {
                     return it
                 }
             }
-            return EMPTY
+            return PRODUCTS
         }
     }
 }

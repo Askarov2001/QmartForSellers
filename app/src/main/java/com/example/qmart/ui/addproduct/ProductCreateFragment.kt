@@ -27,6 +27,8 @@ import androidx.loader.content.Loader
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.example.qmart.BuildConfig
+import com.example.qmart.MainActivity
+import com.example.qmart.SharedPref
 import com.example.qmart.addTextListener
 import com.example.qmart.data.Categories
 import com.example.qmart.data.Product
@@ -195,7 +197,6 @@ class ProductCreateFragment : Fragment() {
         continueButton.setOnClickListener {
             if (productNameEditText.text.toString()
                     .isNotEmpty() && productDescriptionEditText.text.toString().isNotEmpty()
-                && selectedCategory != Categories.EMPTY
             ) {
                 uploadImage()
             } else {
@@ -210,17 +211,24 @@ class ProductCreateFragment : Fragment() {
     }
 
     private fun writeNewProductToDb(product: Product) {
+        val prod: Product = product.apply {
+            if (requireActivity() is MainActivity) {
+                sellerId = (requireActivity() as MainActivity).getValue(SharedPref.UID)
+                merchant = (requireActivity() as MainActivity).getValue(SharedPref.MERCHANT)
+            }
+        }
         val addedCategories = ArrayList<String>()
         database.child("CATEGORIES").get().addOnSuccessListener {
             it.children.forEach {
                 addedCategories.add(it.key.toString())
             }
         }
-        if (!addedCategories.contains(product.category.toString().uppercase())) {
-            database.child("CATEGORIES").child(product.category.toString().uppercase())
-                .setValue(product.category.toString().uppercase())
+        if (!addedCategories.contains(prod.category.toString().uppercase())) {
+            database.child("CATEGORIES").child(prod.category.toString().uppercase())
+                .setValue(prod.category.toString().uppercase())
         }
-        database.child(product.category.toString().uppercase()).child(product.id).setValue(product)
+        database.child(prod.category.toString().uppercase()).child(prod.id)
+            .setValue(prod)
         requireActivity().onBackPressedDispatcher.onBackPressed()
     }
 
