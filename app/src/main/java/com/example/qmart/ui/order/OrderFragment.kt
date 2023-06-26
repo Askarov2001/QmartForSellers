@@ -62,16 +62,12 @@ class OrderFragment : Fragment() {
         arguments?.takeIf { it.containsKey(ARG_OBJECT) }?.apply {
             orders = getParcelableArrayList<Order>(ARG_OBJECT) ?: ArrayList()
         }
-        setToolbar()
         setUI()
 
     }
 
     fun setUI() = with(binding) {
         orderRecyclerView.adapter = orderAdapter
-        closeButton.setOnClickListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
-        }
         if (orders.size > 0) {
             binding.orderRecyclerView.visibility = View.VISIBLE
             binding.emptyTextView.visibility = View.GONE
@@ -90,16 +86,6 @@ class OrderFragment : Fragment() {
             swipeHelper.attachToRecyclerView(orderRecyclerView)
         }
     }
-
-    private fun setToolbar() {
-        requireActivity().apply {
-            setActionBar(binding.toolbar)
-            binding.toolbar.setNavigationOnClickListener {
-                onBackPressedDispatcher.onBackPressed()
-            }
-        }
-    }
-
     private fun initSwipeHelper(): ItemTouchHelper {
         val swipeHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
             0,

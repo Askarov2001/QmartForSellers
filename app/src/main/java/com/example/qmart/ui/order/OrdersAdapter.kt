@@ -12,8 +12,8 @@ class OrdersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var listener: OrdersAdapterListener? = null
     var list = ArrayList<Order>()
         set(value) {
-            notifyDataSetChanged()
             field = value
+            notifyDataSetChanged()
         }
 
 
@@ -23,7 +23,7 @@ class OrdersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         )
     }
 
-    override fun getItemCount(): Int = 2
+    override fun getItemCount(): Int = list.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = list[position]

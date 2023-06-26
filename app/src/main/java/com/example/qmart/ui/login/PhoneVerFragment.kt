@@ -69,6 +69,7 @@ class PhoneVerFragment : Fragment(R.layout.fragment_phone_ver) {
             //     detect the incoming verification SMS and perform verification without
             //     user action.
             signInWithPhoneAuthCredential(credential)
+            binding.phoneProgressBar.visibility = View.GONE
         }
 
         override fun onVerificationFailed(e: FirebaseException) {
@@ -82,7 +83,7 @@ class PhoneVerFragment : Fragment(R.layout.fragment_phone_ver) {
                 // The SMS quota for the project has been exceeded
                 Log.d("TAG", "onVerificationFailed: ${e.toString()}")
             }
-            binding.phoneProgressBar.visibility = View.VISIBLE
+            binding.phoneProgressBar.visibility = View.GONE
             // Show a message and update the UI
         }
 

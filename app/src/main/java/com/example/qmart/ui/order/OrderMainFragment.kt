@@ -1,10 +1,11 @@
 package com.example.qmart.ui.order
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.qmart.MainActivity
 import com.example.qmart.SharedPref
 import com.example.qmart.databinding.FragmentMainOrderBinding
@@ -16,7 +17,12 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
 class OrderMainFragment : Fragment() {
-    private val binding: FragmentMainOrderBinding by viewBinding()
+    private var _binding: FragmentMainOrderBinding? = null
+    private val binding get() = _binding!!
+
+    companion object {
+        fun newInstance() = OrderMainFragment()
+    }
 
     private val orders: ArrayList<Order> = ArrayList()
 
@@ -29,9 +35,23 @@ class OrderMainFragment : Fragment() {
         Firebase.database.reference
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        //viewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
+        _binding = FragmentMainOrderBinding.inflate(layoutInflater)
+        return binding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getOrders()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun getOrders() {
@@ -60,7 +80,6 @@ class OrderMainFragment : Fragment() {
 
                             }
                         }
-
                     }
             }
         }
@@ -68,8 +87,8 @@ class OrderMainFragment : Fragment() {
 
     private fun initAdapter() {
         viewPagerAdapter.submitLists(orders, taken)
-        binding.productViewPager.adapter = viewPagerAdapter
-        TabLayoutMediator(binding.productTabLayout, binding.productViewPager) { tab, position ->
+        binding.orderRecyclerView.adapter = viewPagerAdapter
+        TabLayoutMediator(binding.orderTabLayout, binding.orderRecyclerView) { tab, position ->
             tab.text = when (position) {
                 0 -> "Активные${orders.size}"
                 1 -> "Принятые${taken.size}"
@@ -95,7 +114,7 @@ class ViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
     override fun createFragment(position: Int): Fragment {
 
-        val fragment = ProductFragment()
+        val fragment = OrderFragment()
 
         if (position == 0) {
             fragment.arguments = Bundle().apply {
