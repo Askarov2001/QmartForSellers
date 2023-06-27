@@ -10,8 +10,11 @@ import androidx.core.text.HtmlCompat.fromHtml
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.qmart.MainActivity
 import com.example.qmart.R
+import com.example.qmart.SharedPref
 import com.example.qmart.databinding.FragmentHomeBinding
+import com.example.qmart.ui.order.Order
 import com.example.qmart.ui.product.ProductViewModel
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
@@ -40,7 +43,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        getBoughtSum()
         setToolbar()
         setUI()
 
@@ -91,6 +94,40 @@ class HomeFragment : Fragment() {
                     }
                     binding.inSaleCountTextView.text = count.toString()
                 }
+            }
+        }
+    }
+
+    private fun getBoughtSum() {
+        var total :Long= 0
+        val orderIds = ArrayList<String>()
+        database.child("ORDERS").get().addOnSuccessListener {
+            it.children.forEach {
+                orderIds.add(it.key ?: "")
+            }
+            orderIds.forEach { ids ->
+                database.child("ORDERS").child(ids).child("sellers").get()
+                    .addOnSuccessListener { shapshot ->
+                        if (requireActivity() is MainActivity) {
+                            val uid = (requireActivity() as MainActivity).getValue(SharedPref.UID)
+                            uid?.let {
+                                if (shapshot.value.toString().contains(uid)) {
+                                    database.child("ORDERS").child(ids).child("isTaken").get()
+                                        .addOnSuccessListener {
+                                            if (it.value == true) {
+                                                database.child("ORDERS").child(ids)
+                                                    .child("totalCost").get()
+                                                    .addOnSuccessListener {
+                                                        total += (it.value as Long)
+                                                        binding.boughtSum.text = "${total} t"
+                                                    }
+                                            }
+                                        }
+                                }
+
+                            }
+                        }
+                    }
             }
         }
 

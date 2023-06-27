@@ -86,6 +86,7 @@ class OrderFragment : Fragment() {
             swipeHelper.attachToRecyclerView(orderRecyclerView)
         }
     }
+
     private fun initSwipeHelper(): ItemTouchHelper {
         val swipeHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
             0,
@@ -100,11 +101,7 @@ class OrderFragment : Fragment() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val pos = viewHolder.adapterPosition
                 val map = HashMap<String, Any>()
-                database.child("ORDERS").child(orders[pos].id ?: "").child("isTaken").get()
-                    .addOnSuccessListener {
-                        map["isTaken"] = it.value == false
-                    }
-
+                map["isTaken"] = isTaken == false
                 database.child("ORDERS").child(orders[pos].id ?: "")
                     .updateChildren(map as Map<String, Any>)
                 orders.removeAt(pos)

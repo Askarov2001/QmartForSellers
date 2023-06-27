@@ -28,18 +28,20 @@ class OrderMainFragment : Fragment() {
 
     private val taken: ArrayList<Order> = ArrayList()
 
-    private val viewPagerAdapter: ViewPagerAdapter by lazy {
-        ViewPagerAdapter(this)
-    }
+    private var viewPagerAdapter: ViewPagerAdapter? = null
     private val database: DatabaseReference by lazy {
         Firebase.database.reference
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewPagerAdapter = ViewPagerAdapter(this)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        //viewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
         _binding = FragmentMainOrderBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -47,11 +49,6 @@ class OrderMainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getOrders()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun getOrders() {
@@ -86,7 +83,7 @@ class OrderMainFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        viewPagerAdapter.submitLists(orders, taken)
+        viewPagerAdapter?.submitLists(orders, taken)
         binding.orderRecyclerView.adapter = viewPagerAdapter
         TabLayoutMediator(binding.orderTabLayout, binding.orderRecyclerView) { tab, position ->
             tab.text = when (position) {
@@ -95,6 +92,20 @@ class OrderMainFragment : Fragment() {
                 else -> ""
             }
         }.attach()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.run {
+            orderRecyclerView.adapter = null
+        }
+        orders.clear()
+        taken.clear()
     }
 }
 
