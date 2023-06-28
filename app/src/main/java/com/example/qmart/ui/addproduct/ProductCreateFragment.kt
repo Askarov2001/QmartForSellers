@@ -28,11 +28,13 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.example.qmart.BuildConfig
 import com.example.qmart.MainActivity
+import com.example.qmart.R
 import com.example.qmart.SharedPref
 import com.example.qmart.addTextListener
 import com.example.qmart.data.Categories
 import com.example.qmart.data.Product
 import com.example.qmart.databinding.FragmentProductCreateBinding
+import com.example.qmart.ui.BaseFragment
 import com.example.qmart.ui.bottomsheet.CategoryBottomSheetFragment
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
@@ -43,7 +45,7 @@ import com.google.firebase.storage.ktx.storage
 import java.io.File
 
 
-class ProductCreateFragment : Fragment() {
+class ProductCreateFragment : BaseFragment(R.layout.fragment_product_create) {
     private var selectedIndex = -1
     private var selectedCategory: Categories = Categories.PRODUCTS
 
@@ -80,7 +82,7 @@ class ProductCreateFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requireActivity().viewModelStore.clear()
+        baseActivity?.viewModelStore?.clear()
         requestPermissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
@@ -106,7 +108,7 @@ class ProductCreateFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel = ViewModelProvider(requireActivity()).get(ProductCreateViewModel::class.java)
+        viewModel = ViewModelProvider(baseActivity!!).get(ProductCreateViewModel::class.java)
 
         binding = FragmentProductCreateBinding.inflate(layoutInflater)
         return binding.root
@@ -120,7 +122,7 @@ class ProductCreateFragment : Fragment() {
     }
 
     private fun setToolbar() {
-        requireActivity().apply {
+        baseActivity?.apply {
             setActionBar(binding.toolbar)
             binding.toolbar.setNavigationOnClickListener {
                 onBackPressedDispatcher.onBackPressed()
@@ -191,7 +193,7 @@ class ProductCreateFragment : Fragment() {
 
 
         closeButton.setOnClickListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
+            baseActivity!!.onBackPressedDispatcher.onBackPressed()
         }
 
         continueButton.setOnClickListener {
@@ -212,10 +214,9 @@ class ProductCreateFragment : Fragment() {
 
     private fun writeNewProductToDb(product: Product) {
         val prod: Product = product.apply {
-            if (requireActivity() is MainActivity) {
-                sellerId = (requireActivity() as MainActivity).getValue(SharedPref.UID)
-                merchant = (requireActivity() as MainActivity).getValue(SharedPref.MERCHANT)
-            }
+
+                sellerId = baseActivity?.getValue(SharedPref.UID)
+                merchant = baseActivity?.getValue(SharedPref.MERCHANT)
         }
         val addedCategories = ArrayList<String>()
         database.child("CATEGORIES").get().addOnSuccessListener {
@@ -229,7 +230,7 @@ class ProductCreateFragment : Fragment() {
         }
         database.child(prod.category.toString().uppercase()).child(prod.id)
             .setValue(prod)
-        requireActivity().onBackPressedDispatcher.onBackPressed()
+        baseActivity?.onBackPressedDispatcher?.onBackPressed()
     }
 
     private fun uploadImage() {

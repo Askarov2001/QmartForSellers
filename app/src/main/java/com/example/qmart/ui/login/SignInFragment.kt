@@ -27,7 +27,10 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             logNow.setOnClickListener {
-                (activity as LoginActivity).popBack()
+                (requireActivity() as LoginActivity).addFragment(LogFragment())
+            }
+            back.setOnClickListener {
+                requireActivity().onBackPressedDispatcher.onBackPressed()
             }
 
             signupBtn.setOnClickListener {

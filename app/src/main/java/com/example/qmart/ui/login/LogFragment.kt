@@ -24,6 +24,9 @@ class LogFragment : Fragment(R.layout.fragment_log) {
             signNow.setOnClickListener {
                 (activity as LoginActivity).addFragment(SignInFragment())
             }
+            back.setOnClickListener {
+                requireActivity().onBackPressedDispatcher.onBackPressed()
+            }
 
             forgetPass.setOnClickListener {
                 (activity as LoginActivity).addFragment(ResetPasswordFragment())

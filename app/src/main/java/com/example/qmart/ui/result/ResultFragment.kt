@@ -15,9 +15,10 @@ import androidx.core.view.isVisible
 import com.example.qmart.R
 import com.example.qmart.data.CategoryArgument
 import com.example.qmart.databinding.FragmentResultBinding
+import com.example.qmart.ui.BaseFragment
 import com.example.qmart.ui.bottomsheet.CategoryBottomSheetFragment
 
-class ResultFragment : Fragment() {
+class ResultFragment : BaseFragment(R.layout.fragment_result) {
     private lateinit var binding: FragmentResultBinding
     private lateinit var viewModel: ResultViewModel
 
@@ -72,7 +73,7 @@ class ResultFragment : Fragment() {
     }
 
     private fun setToolbar(){
-        requireActivity().apply {
+        baseActivity?.apply {
             setActionBar(binding.toolbar)
             binding.toolbar.setNavigationOnClickListener {
                 onBackPressedDispatcher.onBackPressed()

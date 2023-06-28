@@ -8,8 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.qmart.R
 import com.example.qmart.databinding.FragmentSettingBinding
+import com.example.qmart.ui.BaseFragment
 
-class SettingFragment : Fragment() {
+class SettingFragment : BaseFragment(R.layout.fragment_setting) {
 
     companion object {
         fun newInstance() = SettingFragment()
@@ -36,7 +37,7 @@ class SettingFragment : Fragment() {
             findNavController().navigate(R.id.action_settingFragment_to_profileFragment)
         }
         closeButton.setOnClickListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
+            baseActivity!!.onBackPressedDispatcher.onBackPressed()
         }
     }
 

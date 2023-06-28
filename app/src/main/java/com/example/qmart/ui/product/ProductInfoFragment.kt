@@ -1,19 +1,18 @@
 package com.example.qmart.ui.product
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.qmart.R
 import com.example.qmart.data.Product
-import com.example.qmart.data.ProductType
 import com.example.qmart.databinding.FragmentProductInfoBinding
+import com.example.qmart.ui.BaseFragment
 import com.google.android.material.tabs.TabLayoutMediator
 
-class ProductInfoFragment : Fragment() {
+class ProductInfoFragment : BaseFragment(R.layout.fragment_product_info) {
 
     companion object {
         fun newInstance() = ProductInfoFragment()
@@ -42,7 +41,7 @@ class ProductInfoFragment : Fragment() {
     }
 
     private fun setToolbar(){
-        requireActivity().apply {
+        baseActivity!!.apply {
             setActionBar(binding.toolbar)
             binding.toolbar.setNavigationOnClickListener {
                 onBackPressedDispatcher.onBackPressed()

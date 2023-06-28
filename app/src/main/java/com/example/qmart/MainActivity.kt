@@ -2,8 +2,12 @@ package com.example.qmart
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
@@ -36,6 +40,27 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private val navGraphId: Int by lazy {
+        R.navigation.nav_graph
+    }
+    private val menuId: Int by lazy {
+        R.menu.bottom_nav_menu
+    }
+
+    private val defaultMenuItem: Int by lazy {
+        R.id.navigation_home
+    }
+    private val hostFragment: Fragment? by lazy {
+        supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main)
+    }
+    private val navController: NavController by lazy {
+        hostFragment?.findNavController() as NavController
+    }
+
+    private val bottomNavigation: BottomNavigationView by lazy {
+        findViewById(R.id.nav_view)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -55,22 +80,14 @@ class MainActivity : AppCompatActivity() {
         productViewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
         productViewModel.setProducts(Repository.products)
 
-        val navView: BottomNavigationView = binding.navView
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home,
-                R.id.navigation_orders,
-                R.id.navigation_plus,
-                R.id.navigation_products,
-                R.id.navigation_more
-            )
-        )
-        //setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
-
+        navController.graph = navController.navInflater.inflate(navGraphId)
+        bottomNavigation.menu.clear()
+        bottomNavigation.inflateMenu(menuId)
+        bottomNavigation.setupWithNavController(navController)
+        bottomNavigation.setOnItemSelectedListener { item ->
+                navController.navigate(item.itemId, null)
+                true
+            }
         /*if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, MainFragment.newInstance())

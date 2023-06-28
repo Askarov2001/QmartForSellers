@@ -11,10 +11,11 @@ import com.example.qmart.R
 import com.example.qmart.data.SalePointAddress
 import com.example.qmart.data.SalePointCashier
 import com.example.qmart.databinding.FragmentSalePointBinding
+import com.example.qmart.ui.BaseFragment
 import com.example.qmart.ui.bottomsheet.AddressBottomSheetFragment
 import com.example.qmart.ui.bottomsheet.CashierBottomSheetFragment
 
-class SalePointFragment : Fragment() {
+class SalePointFragment : BaseFragment(R.layout.fragment_sale_point) {
 
     private lateinit var salePointAddress : SalePointAddress
     private lateinit var salePointCashier: SalePointCashier
@@ -43,7 +44,7 @@ class SalePointFragment : Fragment() {
 
 
     private fun setToolbar() {
-        requireActivity().apply {
+        baseActivity!!.apply {
             setActionBar(binding.toolbar)
             binding.toolbar.setNavigationOnClickListener {
                 onBackPressedDispatcher.onBackPressed()

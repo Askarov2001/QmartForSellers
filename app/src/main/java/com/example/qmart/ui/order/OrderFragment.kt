@@ -18,13 +18,14 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.qmart.R
 import com.example.qmart.databinding.FragmentOrderBinding
+import com.example.qmart.ui.BaseFragment
 import com.example.qmart.ui.product.ARG_OBJECT
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
 
-class OrderFragment : Fragment() {
+class OrderFragment : BaseFragment(R.layout.fragment_order) {
 
     companion object {
         fun newInstance() = OrderFragment()
@@ -41,8 +42,12 @@ class OrderFragment : Fragment() {
         initSwipeHelper()
     }
 
-    private val documentIcon by lazy {
-        ResourcesCompat.getDrawable(resources, R.drawable.ic_documents, null)
+    private val icon by lazy {
+        if (isTaken) {
+            ResourcesCompat.getDrawable(resources, R.drawable.ic_delete, null)
+        } else {
+            ResourcesCompat.getDrawable(resources, R.drawable.ic_documents, null)
+        }
     }
 
     private val isTaken: Boolean by lazy {
@@ -82,9 +87,7 @@ class OrderFragment : Fragment() {
                 findNavController().navigate(R.id.orders_to_order_info, bundle)
             }
         }
-        if (!isTaken) {
-            swipeHelper.attachToRecyclerView(orderRecyclerView)
-        }
+        swipeHelper.attachToRecyclerView(orderRecyclerView)
     }
 
     private fun initSwipeHelper(): ItemTouchHelper {
@@ -102,9 +105,14 @@ class OrderFragment : Fragment() {
                 val pos = viewHolder.adapterPosition
                 val map = HashMap<String, Any>()
                 map["isTaken"] = isTaken == false
-                database.child("ORDERS").child(orders[pos].id ?: "")
-                    .updateChildren(map as Map<String, Any>)
-                orders.removeAt(pos)
+                if (isTaken) {
+                    database.child("ORDERS").child(orders[pos].id ?: "").removeValue()
+                } else {
+                    database.child("ORDERS").child(orders[pos].id ?: "")
+                        .updateChildren(map as Map<String, Any>)
+                    orders.removeAt(pos)
+                }
+
                 orderAdapter.notifyItemRemoved(pos)
             }
 
@@ -146,7 +154,12 @@ class OrderFragment : Fragment() {
                     var text: String = ""
                     try {
                         color = ContextCompat.getColor(requireContext(), R.color.orange_500)
-                        text = "Принять"
+
+                        text = if (isTaken) {
+                            "Удалить"
+                        } else {
+                            "Принять"
+                        }
                     } catch (e: ArrayIndexOutOfBoundsException) {
                         Log.d("Error", "Upssss")
                     }
@@ -161,22 +174,22 @@ class OrderFragment : Fragment() {
                     mBackground.draw(canvas)
 
                     val deleteIconTop: Int =
-                        itemView.top + (itemHeight - (documentIcon?.intrinsicHeight ?: 0)) / 2
+                        itemView.top + (itemHeight - (icon?.intrinsicHeight ?: 0)) / 2
                     val deleteIconMargin: Int =
-                        (itemHeight - (documentIcon?.intrinsicHeight ?: 0)) / 2
+                        (itemHeight - (icon?.intrinsicHeight ?: 0)) / 2
                     val deleteIconLeft: Int =
-                        itemView.right - deleteIconMargin - (documentIcon?.intrinsicWidth ?: 0)
+                        itemView.right - deleteIconMargin - (icon?.intrinsicWidth ?: 0)
                     val deleteIconRight = itemView.right - deleteIconMargin
-                    val deleteIconBottom: Int = deleteIconTop + (documentIcon?.intrinsicWidth ?: 0)
+                    val deleteIconBottom: Int = deleteIconTop + (icon?.intrinsicWidth ?: 0)
 
 
-                    documentIcon?.setBounds(
+                    icon?.setBounds(
                         deleteIconLeft,
                         deleteIconTop,
                         deleteIconRight,
                         deleteIconBottom
                     )
-                    documentIcon?.draw(canvas)
+                    icon?.draw(canvas)
 
                     val textSize = 20f
                     val p = Paint()

@@ -8,15 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
+import com.bumptech.glide.Glide
 import com.example.qmart.R
 import com.example.qmart.data.Product
 import com.example.qmart.databinding.FragmentProductInfoDetailBinding
+import com.example.qmart.ui.BaseFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
-class ProductInfoDetailFragment : Fragment() {
+class ProductInfoDetailFragment : BaseFragment(R.layout.fragment_product_info_detail) {
 
     companion object {
         fun newInstance() = ProductInfoDetailFragment()
@@ -33,7 +35,7 @@ class ProductInfoDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel = ViewModelProvider(requireActivity()).get(ProductViewModel::class.java)
+        viewModel = ViewModelProvider(baseActivity!!).get(ProductViewModel::class.java)
         binding = FragmentProductInfoDetailBinding.inflate(layoutInflater)
 
         return binding.root
@@ -91,12 +93,20 @@ class ProductInfoDetailFragment : Fragment() {
 
         }
         closeButton.setOnClickListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
+            baseActivity!!.onBackPressedDispatcher.onBackPressed()
+        }
+        Glide.with(this@ProductInfoDetailFragment)
+            .load(product.images)
+            .into(productImageView)
+
+        delete.setOnClickListener {
+            database.child(product.category.toString().uppercase()).child(product.id).removeValue()
+            baseActivity?.onBackPressedDispatcher?.onBackPressed()
         }
     }
 
     private fun setToolbar() {
-        requireActivity().apply {
+        baseActivity!!.apply {
             setActionBar(binding.toolbar)
             binding.toolbar.setNavigationOnClickListener {
                 onBackPressedDispatcher.onBackPressed()

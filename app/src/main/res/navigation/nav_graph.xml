@@ -53,18 +53,6 @@
             android:name="com.example.qmart.ui.addproduct.ProductCreateFragment"
             android:label="fragment_create"
             tools:layout="@layout/fragment_product_create">
-            <action
-                android:id="@+id/action_fragmentProductCreate_to_productCreateNextFragment"
-                app:destination="@id/productCreateNextFragment" />
-        </fragment>
-        <fragment
-            android:id="@+id/productCreateNextFragment"
-            android:name="com.example.qmart.ui.addproduct.ProductCreateNextFragment"
-            android:label="ProductCreateNextFragment"
-            tools:layout="@layout/fragment_product_create_next">
-            <action
-                android:id="@+id/action_productCreateNextFragment_to_salePointFragment"
-                app:destination="@id/salePointFragment" />
         </fragment>
         <fragment
             android:id="@+id/salePointFragment"

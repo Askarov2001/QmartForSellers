@@ -14,13 +14,14 @@ import com.example.qmart.MainActivity
 import com.example.qmart.R
 import com.example.qmart.SharedPref
 import com.example.qmart.databinding.FragmentHomeBinding
+import com.example.qmart.ui.BaseFragment
 import com.example.qmart.ui.order.Order
 import com.example.qmart.ui.product.ProductViewModel
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
-class HomeFragment : Fragment() {
+class HomeFragment : BaseFragment(R.layout.fragment_home) {
     companion object {
         fun newInstance() = HomeFragment()
     }
@@ -36,7 +37,7 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel = ViewModelProvider(requireActivity()).get(ProductViewModel::class.java)
+        viewModel = ViewModelProvider(baseActivity!!).get(ProductViewModel::class.java)
         binding = FragmentHomeBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -108,8 +109,7 @@ class HomeFragment : Fragment() {
             orderIds.forEach { ids ->
                 database.child("ORDERS").child(ids).child("sellers").get()
                     .addOnSuccessListener { shapshot ->
-                        if (requireActivity() is MainActivity) {
-                            val uid = (requireActivity() as MainActivity).getValue(SharedPref.UID)
+                            val uid = baseActivity?.getValue(SharedPref.UID)
                             uid?.let {
                                 if (shapshot.value.toString().contains(uid)) {
                                     database.child("ORDERS").child(ids).child("isTaken").get()
@@ -128,7 +128,6 @@ class HomeFragment : Fragment() {
                             }
                         }
                     }
-            }
         }
 
     }

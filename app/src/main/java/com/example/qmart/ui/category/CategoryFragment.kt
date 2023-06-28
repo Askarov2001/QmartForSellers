@@ -11,11 +11,12 @@ import com.example.qmart.data.Categories
 import com.example.qmart.data.Repository.categories
 import com.example.qmart.databinding.FragmentCategoryBinding
 import com.example.qmart.openFragment
+import com.example.qmart.ui.BaseFragment
 import com.example.qmart.ui.bottomsheet.CategoryBottomSheetFragment
 import com.example.qmart.ui.bottomsheet.EMPTY
 import com.example.qmart.ui.result.ResultFragment
 
-class CategoryFragment : Fragment() {
+class CategoryFragment : BaseFragment(R.layout.fragment_category) {
     private var selectedIndex = -1
     private var selectedCategory = EMPTY
 

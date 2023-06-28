@@ -7,15 +7,17 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.example.qmart.R
 import com.example.qmart.data.Product
 import com.example.qmart.data.ProductType
 import com.example.qmart.databinding.FragmentProductMainBinding
+import com.example.qmart.ui.BaseFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
-class ProductMainFragment : Fragment() {
+class ProductMainFragment : BaseFragment(R.layout.fragment_product_main) {
 
     companion object {
         fun newInstance() = ProductMainFragment()
@@ -37,7 +39,7 @@ class ProductMainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         //viewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
-        viewModel = ViewModelProvider(requireActivity()).get(ProductViewModel::class.java)
+        viewModel = ViewModelProvider(baseActivity!!).get(ProductViewModel::class.java)
         binding = FragmentProductMainBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -53,12 +55,12 @@ class ProductMainFragment : Fragment() {
     fun setUI() = with(binding) {
         //viewModel.setProducts(Repository.products)
         closeButton.setOnClickListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
+            baseActivity?.onBackPressedDispatcher?.onBackPressed()
         }
     }
 
     private fun setToolbar() {
-        requireActivity().apply {
+        baseActivity?.apply {
             setActionBar(binding.toolbar)
             binding.toolbar.setNavigationOnClickListener {
                 onBackPressedDispatcher.onBackPressed()
@@ -127,7 +129,14 @@ class ProductMainFragment : Fragment() {
             }
         }.attach()
     }
+
+    override fun onPause() {
+        super.onPause()
+        listSold.clear()
+        listOnSale.clear()
+    }
 }
+
 
 const val ARG_OBJECT = "object"
 

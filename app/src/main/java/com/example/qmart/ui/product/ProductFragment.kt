@@ -23,13 +23,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.qmart.R
 import com.example.qmart.data.Product
 import com.example.qmart.databinding.FragmentProductBinding
+import com.example.qmart.ui.BaseFragment
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlin.math.roundToInt
 
 
-class ProductFragment : Fragment(), ProductClickListener {
+class ProductFragment : BaseFragment(R.layout.fragment_product), ProductClickListener {
 
     companion object {
         fun newInstance() = ProductFragment()

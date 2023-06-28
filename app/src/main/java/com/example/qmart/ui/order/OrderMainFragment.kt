@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.qmart.MainActivity
+import com.example.qmart.R
 import com.example.qmart.SharedPref
 import com.example.qmart.databinding.FragmentMainOrderBinding
+import com.example.qmart.ui.BaseFragment
 import com.example.qmart.ui.product.ARG_OBJECT
 import com.example.qmart.ui.product.ProductFragment
 import com.google.android.material.tabs.TabLayoutMediator
@@ -16,7 +18,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
-class OrderMainFragment : Fragment() {
+class OrderMainFragment : BaseFragment(R.layout.fragment_main_order) {
     private var _binding: FragmentMainOrderBinding? = null
     private val binding get() = _binding!!
 
@@ -49,6 +51,7 @@ class OrderMainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getOrders()
+        setToolbar()
     }
 
     private fun getOrders() {
@@ -60,22 +63,20 @@ class OrderMainFragment : Fragment() {
             orderIds.forEach { ids ->
                 database.child("ORDERS").child(ids).child("sellers").get()
                     .addOnSuccessListener { shapshot ->
-                        if (requireActivity() is MainActivity) {
-                            val uid = (requireActivity() as MainActivity).getValue(SharedPref.UID)
-                            uid?.let {
-                                if (shapshot.value.toString().contains(uid)) {
-                                    database.child("ORDERS").child(ids).child("isTaken").get()
-                                        .addOnSuccessListener {
-                                            if (it.value == true) {
-                                                taken.add(Order(ids))
-                                            } else {
-                                                orders.add(Order(ids))
-                                            }
-                                            initAdapter()
+                        val uid = baseActivity!!.getValue(SharedPref.UID)
+                        uid?.let {
+                            if (shapshot.value.toString().contains(uid)) {
+                                database.child("ORDERS").child(ids).child("isTaken").get()
+                                    .addOnSuccessListener {
+                                        if (it.value == true) {
+                                            taken.add(Order(ids))
+                                        } else {
+                                            orders.add(Order(ids))
                                         }
-                                }
-
+                                        initAdapter()
+                                    }
                             }
+
                         }
                     }
             }
@@ -87,8 +88,8 @@ class OrderMainFragment : Fragment() {
         binding.orderRecyclerView.adapter = viewPagerAdapter
         TabLayoutMediator(binding.orderTabLayout, binding.orderRecyclerView) { tab, position ->
             tab.text = when (position) {
-                0 -> "Активные${orders.size}"
-                1 -> "Принятые${taken.size}"
+                0 -> "Активные (${orders.size})"
+                1 -> "Принятые (${taken.size})"
                 else -> ""
             }
         }.attach()
@@ -107,7 +108,20 @@ class OrderMainFragment : Fragment() {
         orders.clear()
         taken.clear()
     }
+
+    private fun setToolbar() {
+        baseActivity!!.apply {
+            setActionBar(binding.toolbar)
+            binding.toolbar.setNavigationOnClickListener {
+                onBackPressedDispatcher.onBackPressed()
+            }
+        }
+        binding.closeButton.setOnClickListener {
+            baseActivity!!.onBackPressedDispatcher.onBackPressed()
+        }
+    }
 }
+
 
 class ViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 

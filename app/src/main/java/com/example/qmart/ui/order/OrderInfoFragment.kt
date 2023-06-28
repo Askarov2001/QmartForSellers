@@ -7,13 +7,14 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.qmart.R
 import com.example.qmart.data.Product
 import com.example.qmart.databinding.FragmentOrderInfoBinding
+import com.example.qmart.ui.BaseFragment
 import com.example.qmart.ui.product.ProductAdapter
 import com.example.qmart.ui.product.ProductClickListener
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
-class OrderInfoFragment : Fragment(R.layout.fragment_order_info), ProductClickListener {
+class OrderInfoFragment : BaseFragment(R.layout.fragment_order_info), ProductClickListener {
     private val binding: FragmentOrderInfoBinding by viewBinding()
     private val database: DatabaseReference by lazy {
         Firebase.database.reference.child("ORDERS").child(orderId)
@@ -64,11 +65,11 @@ class OrderInfoFragment : Fragment(R.layout.fragment_order_info), ProductClickLi
                 adapter.submitList(products)
             }
             back.setOnClickListener {
-                requireActivity().onBackPressedDispatcher.onBackPressed()
+                baseActivity!!.onBackPressedDispatcher.onBackPressed()
             }
 
             close.setOnClickListener {
-                requireActivity().onBackPressedDispatcher.onBackPressed()
+                baseActivity!!.onBackPressedDispatcher.onBackPressed()
 
             }
 

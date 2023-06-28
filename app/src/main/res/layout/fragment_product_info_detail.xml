@@ -122,7 +122,6 @@
             android:layout_marginTop="16dp"
             tools:text="Очень вкусные пончики к чаю с шоколадной начинкой. Очень вкусные пончики к чаю с шоколадной начинкой. Очень вкусные пончики к чаю с шоколадной начинкой. Очень вкусные пончики к чаю с шоколадной начинкой." />
 
-
         <Button
             android:id="@+id/saveChangesButton"
             style="@style/Button.Green"
@@ -132,6 +131,17 @@
             android:layout_marginTop="44dp"
             android:layout_marginBottom="24dp"
             android:text="@string/save_changes" />
+
+        <Button
+            android:id="@+id/delete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/bg_red_btn"
+            android:text="Удалить"
+            android:textColor="@color/red" />
 
 
     </LinearLayout>
